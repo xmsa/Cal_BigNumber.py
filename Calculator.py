@@ -4,7 +4,8 @@ class Cal:
 	def __init__(self, str1, str2):
 		self.num1 = Num(str1)
 		self.num2 = Num(str2)
-		print(self.Sum().Num2Str())
+		#print(self.Sum().Num2Str())
+		print(self.Minus().Num2Str())
 
 	def Sum(self):
 		sing1 = self.num1.GetSign()
@@ -27,7 +28,7 @@ class Cal:
 			pass
 
 		return num3
-		
+
 	def __Sum(self, num1, num2, c=0 ):
 		sum = list()
 
@@ -44,10 +45,72 @@ class Cal:
 		return sum, c
 
 	def Minus(self):
-		pass
+		sing1 = self.num1.GetSign()
+		sing2 = self.num2.GetSign()
+		int1 = self.num1.GetInt()
+		int2 = self.num2.GetInt()
+		float1 = self.num1.GetFloat()
+		float2 = self.num2.GetFloat()
+		f1 = len(float1) > len(float2)
+		f2 = len(float2) > len(float1)
 
-	def Mull(self):
-		pass
+		if f1:
+			float2 = self.__Sync(float2, len(float1))
+		elif f2:
+			float1 = self.__Sync(float1, len(float2))
+
+		num3 = Num()
+		#         -           +   or     +           -
+		if (not(sing1) and sing2) or (sing1 and not(sing2)) :
+
+			num3.SetSign(sing1)
+
+			s, c =  self.__Sum(float1, float2)
+			num3.SetFloat(s)
+			
+			s, c = self.__Sum(int1, int2, c)
+			num3.SetInt(s)
+		#      +         + 
+		elif sing1 and sing2:
+			if self.Greater():
+				num3.SetSign(True)
+
+				s, c =  self.__Minus(float1, float2)
+				num3.SetFloat(s)
+				
+				s, c = self.__Minus(int1, int2, c)
+				num3.SetInt(s)
+			else:
+				num3.SetSign(False)
+
+				s, c =  self.__Minus(float2, float1)
+				num3.SetFloat(s)
+				
+				s, c = self.__Minus(int2, int1, c)
+				num3.SetInt(s)
+		#           -             - 
+		elif not(sing1) and not(sing2) :
+			pass
+		return num3
+	def __Minus(self, num1, num2, c=0 ):
+		minus = list()
+
+		for i in range(len(num2)):
+			num1[i]-=c
+			if num1[i] < num2[i]:
+				num1[i]+=10
+				if i+1!=len(num1):
+					num1[i+1]-=1
+				else:
+					c=1
+			minus.append(num1[i] - num2[i])
+
+		for i in range(len(num2), len(num1)):
+			s = num1[i] + c
+			c = s // 10
+			minus.append(s % 10)
+		
+		return minus, c 
 
 	def Greater(self):
 		sing1 = self.num1.GetSign()
@@ -96,9 +159,9 @@ class Cal:
 			f2 = len(float2) > len(float1)
 
 			if f1:
-				self.__Sync(float2, len(float1))
+				float2 = self.__Sync(float2, len(float1))
 			elif f2:
-				self.__Sync(float1, len(float2))
+				float1 = self.__Sync(float1, len(float2))
 
 			if sing:
 				i =  len(float1) - 1
@@ -125,5 +188,4 @@ class Cal:
 			i += 1
 		return num
 
-
-Cal("10.9","10.1")
+Cal("1.000001","1.02")
