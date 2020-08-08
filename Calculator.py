@@ -4,9 +4,44 @@ class Cal:
 	def __init__(self, str1, str2):
 		self.num1 = Num(str1)
 		self.num2 = Num(str2)
-		print(self.Greater())
+		print(self.Sum().Num2Str())
+
 	def Sum(self):
-		pass
+		sing1 = self.num1.GetSign()
+		sing2 = self.num2.GetSign()
+		int1 = self.num1.GetInt()
+		int2 = self.num2.GetInt()
+		float1 = self.num1.GetFloat()
+		float2 = self.num2.GetFloat()
+
+		if sing1 == sing2 or not(sing1==sing2):
+			num3 = Num()
+			num3.SetSign(sing1)
+
+			s, c =  self.__Sum(float1, float2)
+			num3.SetFloat(s)
+			
+			s, c = self.__Sum(int1, int2, c)
+			num3.SetInt(s)
+		else:
+			pass
+
+		return num3
+		
+	def __Sum(self, num1, num2, c=0 ):
+		sum = list()
+
+		for i in range(len(num2)):
+			s = num1[i] + num2[i] + c
+			c = s // 10
+			sum.append(s % 10)
+
+		for i in range(len(num2), len(num1)):
+			s = num1[i] + c
+			c = s // 10
+			sum.append(s % 10)
+		
+		return sum, c
 
 	def Minus(self):
 		pass
@@ -91,4 +126,4 @@ class Cal:
 		return num
 
 
-Cal("10","10.00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001")
+Cal("10.9","10.1")

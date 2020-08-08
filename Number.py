@@ -6,7 +6,6 @@ class Num:
 			self.__int = [0]
 			self.__float = [0]
 			self.__sing = True	
-		print(self.Num2Str())
 	def __Str2Num(self, _str):
 		__int = list()
 		__float = list()
