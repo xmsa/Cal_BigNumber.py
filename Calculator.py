@@ -90,7 +90,23 @@ class Cal:
 				num3.SetInt(s)
 		#           -             - 
 		elif not(sing1) and not(sing2) :
-			pass
+			if self.Greater():
+				num3.SetSign(True)
+
+				s, c =  self.__Minus(float2, float1)
+				num3.SetFloat(s)
+				
+				s, c = self.__Minus(int2, int1, c)
+				num3.SetInt(s)
+			else:
+				num3.SetSign(False)
+
+				s, c =  self.__Minus(float1, float2)
+				num3.SetFloat(s)
+				
+				s, c = self.__Minus(int1, int2, c)
+				num3.SetInt(s)
+				pass
 		return num3
 	def __Minus(self, num1, num2, c=0 ):
 		minus = list()
@@ -106,9 +122,14 @@ class Cal:
 			minus.append(num1[i] - num2[i])
 
 		for i in range(len(num2), len(num1)):
-			s = num1[i] + c
-			c = s // 10
-			minus.append(s % 10)
+			num1[i]-=c
+			if num1[i] < 0:
+				num1[i]+=10
+				if i+1!=len(num1):
+					num1[i+1]-=1
+				else:
+					c=1
+			minus.append(num1[i])
 		
 		return minus, c 
 
@@ -188,4 +209,4 @@ class Cal:
 			i += 1
 		return num
 
-Cal("1.000001","1.02")
+Cal("-2","-3")
