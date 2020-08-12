@@ -77,3 +77,12 @@ class Num:
 		return self.__float 
 	def GetSign(self):
 		return self.__sing 
+
+	def Merge(self):
+		l = len(self.__float)
+		return self.__float + self.__int, l
+
+	def Split(self, num, l, s):
+		self.__int = self.__RemoveZero(num[l:], False) 
+		self.__float = self.__RemoveZero(num[:l])
+		self.__sing = s
