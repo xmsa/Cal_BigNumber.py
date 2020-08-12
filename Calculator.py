@@ -4,8 +4,10 @@ class Cal:
 	def __init__(self, str1, str2):
 		self.num1 = Num(str1)
 		self.num2 = Num(str2)
-		print(self.Sum().Num2Str())
+		#print(self.Sum().Num2Str())
 		#print(self.Minus().Num2Str())
+		print(self.Mul().Num2Str())
+
 
 	def Sum(self):
 		sing1 = self.num1.GetSign()
@@ -227,4 +229,32 @@ class Cal:
 		elif sing2 and not(sing1):
 			return False
 		return None
-Cal("1","-4")
+
+	def Mul(self):
+		s=0
+		num = list()
+		__num1, l1 = self.num1.Merge()
+		__num2, l2 = self.num2.Merge()
+		for i in range(len(__num1)):
+			for j in range(len(__num2)): 
+				s = __num1[i] * __num2[j]
+				if len(num)==i+j:
+					num.append(0)
+				num[i+j] += s
+		for i in range(len(num)):
+			if len(num) == i+1:
+					num.append(0)
+			num[i+1] += num[i] // 10
+			num[i]=num[i] % 10
+		s1 = self.num1.GetSign() or self.num2.GetSign()
+		s2 = self.num1.GetSign() and self.num1.GetSign()
+		if s1 == s2:
+			s = True
+		else:
+			s = False
+		
+		n = Num()
+		n.Split(num, l1+l2, s)
+		return n
+
+Cal("12.34","0.1")
